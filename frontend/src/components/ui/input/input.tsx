@@ -4,12 +4,36 @@ import { cn } from "@/lib/cn";
 import { Icon } from "@/components/ui/icons/icon";
 import { inputStyles } from "./input.styles";
 
+/**
+ * Props for {@link Input}.
+ *
+ * Extends native input props (value, onChange, placeholder, etc).
+ */
 type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
+    /**
+     * Visual validation state.
+     * @defaultValue "default"
+     */
     state?: "default" | "error";
+
+    /**
+     * Optional left icon (renders inside the input).
+     */
     leftIcon?: LucideIcon;
+
+    /**
+     * Optional right icon (renders inside the input).
+     */
     rightIcon?: LucideIcon;
 };
 
+/**
+ * Text input with optional leading/trailing icons.
+ *
+ * Layout notes:
+ * - Icons are absolutely positioned inside a relatively positioned wrapper.
+ * - Padding is adjusted automatically via `inputStyles` variants.
+ */
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     ({ state = "default", leftIcon, rightIcon, className, ...props }, ref) => {
         const withLeftIcon = Boolean(leftIcon);
