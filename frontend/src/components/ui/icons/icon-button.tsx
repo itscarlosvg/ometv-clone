@@ -3,10 +3,36 @@ import type { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { Icon } from "@/components/ui/icons/icon";
 
+/**
+ * Props for {@link IconButton}.
+ *
+ * Extends native button props.
+ */
 type IconButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+    /**
+     * Lucide icon component reference.
+     */
     icon: LucideIcon;
+
+    /**
+     * Size preset for the button container.
+     * @defaultValue "md"
+     */
     size?: "sm" | "md" | "lg";
+
+    /**
+     * Visual style of the button.
+     * - `ghost`: transparent with hover background
+     * - `soft`: subtle background
+     * - `solid`: strong background (icon inherits text color)
+     * @defaultValue "ghost"
+     */
     variant?: "ghost" | "soft" | "solid";
+
+    /**
+     * Semantic text/icon color (ignored for `variant="solid"` since it uses `text-white`).
+     * @defaultValue "neutral"
+     */
     tone?: "neutral" | "primary" | "danger";
 };
 
@@ -28,6 +54,12 @@ const toneCls = {
     danger: "text-red-700",
 };
 
+/**
+ * Icon-only button.
+ *
+ * Accessibility tip:
+ * - Prefer adding `aria-label="..."` when the icon does not have adjacent text.
+ */
 export function IconButton({
     icon,
     size = "md",
