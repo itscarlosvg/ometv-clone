@@ -14,7 +14,7 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
      * Visual intent / tone.
      * @defaultValue "neutral"
      */
-    intent?: "neutral" | "primary" | "info" | "warning" | "danger";
+    intent?: "neutral" | "primary" | "info" | "secondary" | "danger";
 
     /**
      * Extra visual state (useful for toggle buttons, tabs, filters...).

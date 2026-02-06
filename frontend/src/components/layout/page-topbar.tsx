@@ -98,15 +98,6 @@ export function PageTopbar({
                     >
                         Nueva reunión
                     </Button>
-
-                    <Button
-                        intent="warning"
-                        leftIcon={CalendarDays}
-                        onClick={onSchedule}
-                        disabled={disableSchedule}
-                    >
-                        Programar
-                    </Button>
                 </div>
             ) : null}
         </header>

@@ -6,7 +6,7 @@ import { cva } from "class-variance-authority";
  * Built with `class-variance-authority (cva)` to keep variants consistent and type-friendly.
  *
  * Variants:
- * - `intent`: semantic purpose / color style (neutral, primary, info, warning, danger)
+ * - `intent`: semantic purpose / color style (neutral, primary, info, secondary, danger)
  * - `state`: visual state styling (default, active, focus, selected)
  * - `size`: height + padding presets
  * - `fullWidth`: stretches the button to container width
@@ -33,7 +33,7 @@ export const buttonStyles = cva(
                 neutral: "bg-slate-100 text-slate-900 hover:bg-slate-200",
                 primary: "bg-emerald-400 text-slate-900 hover:bg-emerald-300",
                 info: "bg-sky-400 text-slate-900 hover:bg-sky-300",
-                warning: "bg-purple-300 text-slate-900 hover:bg-purple-200",
+                secondary: "bg-purple-300 text-slate-900 hover:bg-purple-200",
                 danger: "bg-red-200 text-slate-900 hover:bg-red-100",
             },
 
