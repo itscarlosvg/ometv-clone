@@ -30,7 +30,7 @@ type IconBadgeProps = {
      * Semantic tone that maps to text/background colors.
      * @defaultValue "neutral"
      */
-    tone?: "logo" | "neutral" | "primary" | "info" | "warning" | "danger";
+    tone?: "logo" | "neutral" | "primary" | "info" | "secondary" | "danger";
 
     /**
      * Optional extra classes for the wrapper.
@@ -46,7 +46,7 @@ const toneClasses: Record<NonNullable<IconBadgeProps["tone"]>, string> = {
     neutral: "text-slate-700",
     primary: "text-emerald-700",
     info: "text-sky-700",
-    warning: "text-amber-800",
+    secondary: "text-amber-800",
     danger: "text-red-700",
 };
 
@@ -55,7 +55,6 @@ const toneClasses: Record<NonNullable<IconBadgeProps["tone"]>, string> = {
  * Note: `variant="none"` intentionally applies no background.
  */
 const bgClasses: Record<NonNullable<IconBadgeProps["tone"]>, { soft: string; solid: string }> = {
-    // Tip: ensure these classes match your Tailwind setup (e.g. `bg-linear-*` plugin).
     logo: {
         soft: "bg-linear-65 from-purple-700 to-emerald-500 text-white",
         solid: "bg-linear-65 from purple-300 to-emerald-300 text-black",
@@ -63,7 +62,7 @@ const bgClasses: Record<NonNullable<IconBadgeProps["tone"]>, { soft: string; sol
     neutral: { soft: "bg-slate-100", solid: "bg-slate-800 text-white" },
     primary: { soft: "bg-emerald-100", solid: "bg-emerald-500 text-slate-900" },
     info: { soft: "bg-sky-100", solid: "bg-sky-500 text-slate-900" },
-    warning: { soft: "bg-amber-100", solid: "bg-amber-400 text-slate-900" },
+    secondary: { soft: "bg-amber-100", solid: "bg-amber-400 text-slate-900" },
     danger: { soft: "bg-red-100", solid: "bg-red-400 text-slate-900" },
 };
 
@@ -81,7 +80,7 @@ export function IconBadge({
     className,
 }: IconBadgeProps) {
     const base = "inline-flex items-center justify-center rounded-lg";
-    const padding = "h-9 w-9"; // adjust to your UI
+    const padding = "h-9 w-9";
     const toneText = toneClasses[tone];
 
     const bg =
