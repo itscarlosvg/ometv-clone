@@ -1,3 +1,4 @@
+import { BgDetails } from "@/components/layout";
 import "@/styles/globals.css";
 
 export const metadata = {
