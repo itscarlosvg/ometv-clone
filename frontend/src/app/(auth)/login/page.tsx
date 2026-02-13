@@ -1,9 +1,27 @@
+"use client";
+
 import Link from "next/link";
 import { ArrowRight, Video } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { IconBadge } from "@/components/ui/icons";
+import { supabase } from "@/lib/supabase";
 
 export default function LoginPage() {
+    const loginWithGoogle = async () => {
+    const redirectTo = "http://localhost:3000/callback";
+
+        const { data, error } = await supabase.auth.signInWithOAuth({
+            provider: "google",
+            options: {
+                redirectTo: redirectTo,
+            },
+        }); // logica agregada inicio sesion google
+
+        if (error) {
+            console.error("Error:", error);
+        }
+  };
+    
     return (
         <section className="flex w-full max-w-md flex-col items-center text-center">
             <IconBadge
@@ -18,12 +36,15 @@ export default function LoginPage() {
                 Videollamadas 1:1 con chat y agenda
             </p>
 
+
+
             <div className="mt-6">
                 <Button
                     intent="primary"
                     leftIcon={ArrowRight}
                     showRightIcon={false}
                     className="h-10 rounded-lg px-5"
+                    onClick={loginWithGoogle} // logica agregada boton inicio sesion google
                 >
                     Continuar con Google
                 </Button>
@@ -41,5 +62,5 @@ export default function LoginPage() {
                 .
             </p>
         </section>
-    );
+    );  
 }

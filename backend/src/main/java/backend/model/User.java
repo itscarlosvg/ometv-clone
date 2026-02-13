@@ -44,8 +44,6 @@ public class User {
         updatedAt = OffsetDateTime.now();
     }
 
-    // Getters y Setters
-
     public UUID getId() {
         return id;
     }
