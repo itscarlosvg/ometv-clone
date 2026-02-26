@@ -21,7 +21,7 @@ export const inputStyles = cva(
              * Validation/visual state.
              */
             state: {
-                default: "border-slate-200 focus-visible:ring-sky-400",
+                default: "border-slate-200 focus-visible:ring-green-400",
                 error: "border-red-300 focus-visible:ring-red-300",
             },
 

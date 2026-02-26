@@ -6,9 +6,9 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         <div className="flex">
             <Sidebar
                 items={[
-                    { label: "Inicio", href: "/app", icon: "home" },
-                    { label: "Calendario", href: "/app/calendar", icon: "calendar" },
-                    { label: "Ajustes", href: "/app/settings", icon: "settings" },
+                    { label: "Inicio", href: "/dashboard", icon: "home" },
+                    { label: "Calendario", href: "/dashboard/calendar", icon: "calendar" },
+                    { label: "Ajustes", href: "/dashboard/settings", icon: "settings" },
                 ]}
                 user={{
                     name: "Carlos Martínez",
@@ -17,7 +17,6 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 }}
             />
             <div className="flex-1">
-                <PageTopbar />
                 <main className="p-2">{children}</main>
             </div>
         </div>

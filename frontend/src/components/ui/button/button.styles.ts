@@ -34,7 +34,7 @@ export const buttonStyles = cva(
                 primary: "bg-emerald-400 text-slate-900 hover:bg-emerald-300",
                 info: "bg-sky-400 text-slate-900 hover:bg-sky-300",
                 warning: "bg-purple-300 text-slate-900 hover:bg-purple-200",
-                danger: "bg-red-200 text-slate-900 hover:bg-red-100",
+                danger: "bg-red-200 text-slate-900 hover:bg-red-200",
             },
 
             /**

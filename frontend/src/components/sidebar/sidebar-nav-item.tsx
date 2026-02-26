@@ -1,7 +1,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { cn } from "@/lib/cn";
-import { Home, CalendarDays, Settings } from "lucide-react";
+import { Home, CalendarDays, Settings, Video } from "lucide-react";
 import type { SidebarIconName } from "./sidebar-nav";
 
 type SidebarNavItemProps = {
@@ -38,6 +38,7 @@ const ICONS: Record<SidebarIconName, React.ElementType> = {
     home: Home,
     calendar: CalendarDays,
     settings: Settings,
+    video: Video,
 };
 
 /**

@@ -9,7 +9,7 @@ import { SidebarNavItem } from "./sidebar-nav-item";
  * Keep this type small and explicit to avoid typos.
  * Add new values whenever you add new icons in the map.
  */
-export type SidebarIconName = "home" | "calendar" | "settings";
+export type SidebarIconName = "home" | "calendar" | "settings" | "video";
 
 /**
  * Serializable shape of a sidebar item (safe to pass from Server -> Client).

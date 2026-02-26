@@ -5,13 +5,18 @@ import { Button } from "@/components/ui/button/button";
 
 type PageTopbarProps = {
     /**
-     * Main title shown on the left.
+     * Custom left content (replaces title/subtitle if provided)
+     */
+    leftContent?: React.ReactNode;
+    
+    /**
+     * Main title shown on the left (ignored if leftContent is provided)
      * @defaultValue "Inicio"
      */
     title?: string;
 
     /**
-     * Supporting subtitle/description shown under the title.
+     * Supporting subtitle/description shown under the title (ignored if leftContent is provided)
      * @defaultValue "Gestiona tus reuniones y videollamadas"
      */
     subtitle?: string;
@@ -33,36 +38,24 @@ type PageTopbarProps = {
 
     /**
      * Whether to show the action buttons.
-     * Useful if some pages are read-only or don't have actions.
      * @defaultValue true
      */
     showActions?: boolean;
 
     /**
-     * Allows disabling individual actions (e.g., while loading).
+     * Allows disabling individual actions.
      */
     disableNewMeeting?: boolean;
     disableSchedule?: boolean;
+    
+    /**
+     * Custom right content (replaces action buttons if provided)
+     */
+    rightContent?: React.ReactNode;
 };
 
-/**
- * PageTopbar
- *
- * A reusable top header row for pages:
- * - Title + description on the left
- * - Action buttons on the right (uses your existing `Button` component)
- *
- * Typical usage:
- * ```tsx
- * <PageTopbar
- *   title="Inicio"
- *   subtitle="Gestiona tus reuniones y videollamadas"
- *   onNewMeeting={() => setOpen(true)}
- *   onSchedule={() => router.push("/app/calendar/new")}
- * />
- * ```
- */
 export function PageTopbar({
+    leftContent,
     title = "Inicio",
     subtitle = "Gestiona tus reuniones y videollamadas",
     className,
@@ -71,6 +64,7 @@ export function PageTopbar({
     showActions = true,
     disableNewMeeting,
     disableSchedule,
+    rightContent,
 }: PageTopbarProps) {
     return (
         <header
@@ -81,34 +75,45 @@ export function PageTopbar({
                 className
             )}
         >
-            {/* Left: Title + subtitle */}
+            {/* Left: Custom content or default title/subtitle */}
             <div className="min-w-0">
-                <h1 className="text-lg font-semibold text-slate-900">{title}</h1>
-                <p className="mt-1 text-sm text-slate-500">{subtitle}</p>
+                {leftContent ? (
+                    leftContent
+                ) : (
+                    <>
+                        <h1 className="text-lg font-semibold text-slate-900">{title}</h1>
+                        <p className="mt-1 text-sm text-slate-500">{subtitle}</p>
+                    </>
+                )}
             </div>
 
-            {/* Right: Actions */}
-            {showActions ? (
-                <div className="flex shrink-0 items-center gap-3">
-                    <Button
-                        intent="primary"
-                        leftIcon={Plus}
-                        onClick={onNewMeeting}
-                        disabled={disableNewMeeting}
-                    >
-                        Nueva reunión
-                    </Button>
-
-                    <Button
-                        intent="warning"
-                        leftIcon={CalendarDays}
-                        onClick={onSchedule}
-                        disabled={disableSchedule}
-                    >
-                        Programar
-                    </Button>
-                </div>
-            ) : null}
+            {/* Right: Custom content or default actions */}
+            <div className="flex shrink-0 items-center gap-3">
+                {rightContent ? (
+                    rightContent
+                ) : (
+                    showActions && (
+                        <>
+                            <Button
+                                intent="primary"
+                                leftIcon={Plus}
+                                onClick={onNewMeeting}
+                                disabled={disableNewMeeting}
+                            >
+                                Nueva reunión
+                            </Button>
+                            <Button
+                                intent="warning"
+                                leftIcon={CalendarDays}
+                                onClick={onSchedule}
+                                disabled={disableSchedule}
+                            >
+                                Programar
+                            </Button>
+                        </>
+                    )
+                )}
+            </div>
         </header>
     );
 }
