@@ -3,7 +3,11 @@
 import { Calendar, Clock, Copy, Video, Pencil, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button/button";
 
-export function EventDetailCard() {
+type Props = {
+  id: string;
+};
+
+export function EventDetailCard({ id }: Props) {
   const meetingLink = "https://videomeet.app/room/abc-def-ghi";
 
   const copyLink = async () => {
@@ -12,7 +16,6 @@ export function EventDetailCard() {
 
   return (
     <div className="w-full max-w-2xl bg-white border border-slate-200 rounded-xl p-8 shadow-sm space-y-6">
-      
       <div>
         <h2 className="text-xl font-semibold text-slate-900">
           Reunión de proyecto Q1
@@ -34,9 +37,7 @@ export function EventDetailCard() {
       <hr className="border-slate-200" />
 
       <div>
-        <p className="text-sm font-medium text-slate-700 mb-3">
-          Invitado
-        </p>
+        <p className="text-sm font-medium text-slate-700 mb-3">Invitado</p>
 
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-slate-200" />
@@ -44,17 +45,13 @@ export function EventDetailCard() {
             <p className="text-sm font-medium text-slate-900">
               Carlos Martínez
             </p>
-            <p className="text-xs text-slate-500">
-              carlos@email.com
-            </p>
+            <p className="text-xs text-slate-500">carlos@email.com</p>
           </div>
         </div>
       </div>
 
       <div className="rounded-xl bg-emerald-100 border border-emerald-200 p-5 space-y-3">
-        <p className="text-sm font-medium text-slate-800">
-          Enlace de la sala
-        </p>
+        <p className="text-sm font-medium text-slate-800">Enlace de la sala</p>
 
         <div className="flex gap-3">
           <input
@@ -70,14 +67,12 @@ export function EventDetailCard() {
       </div>
 
       <div>
-        <p className="text-sm font-medium text-slate-700 mb-2">
-          Notas
-        </p>
+        <p className="text-sm font-medium text-slate-700 mb-2">Notas</p>
 
         <div className="rounded-md border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
-          Revisión del progreso del primer trimestre. Puntos a tratar:
-          objetivos alcanzados, presupuesto utilizado, próximos pasos
-          y ajustes necesarios para Q2.
+          Revisión del progreso del primer trimestre. Puntos a tratar: objetivos
+          alcanzados, presupuesto utilizado, próximos pasos y ajustes necesarios
+          para Q2.
         </div>
       </div>
 
