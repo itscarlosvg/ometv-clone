@@ -12,13 +12,10 @@ export function MiniCalendar() {
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
 
-  // Total días del mes
   const daysInMonth = new Date(year, month + 1, 0).getDate();
 
-  // Día de la semana del primer día del mes (0=domingo)
   const firstDay = new Date(year, month, 1).getDay();
 
-  // Convertimos para que la semana empiece en lunes
   const startOffset = (firstDay + 6) % 7;
 
   const daysOfWeek = ["L", "M", "X", "J", "V", "S", "D"];
@@ -43,7 +40,6 @@ export function MiniCalendar() {
 
   return (
     <div>
-      {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <span className="text-sm font-medium text-slate-700 capitalize">
           {monthLabel}
@@ -74,7 +70,6 @@ export function MiniCalendar() {
           </span>
         ))}
 
-        {/* Espacios vacíos antes del día 1 */}
         {Array.from({ length: startOffset }).map((_, i) => (
           <div key={`empty-${i}`} />
         ))}
