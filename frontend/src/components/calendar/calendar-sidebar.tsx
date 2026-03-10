@@ -1,25 +1,51 @@
 import { MiniCalendar } from "./mini-calendar";
+import { CalendarEvent } from "@/types/calendar-event";
+import { Button } from "@/components/ui/button/button";
 
-export function CalendarSidebar() {
+type Props = {
+  events: CalendarEvent[];
+  selectedDate: Date;
+  setSelectedDate: (date: Date) => void;
+};
+
+export function CalendarSidebar({
+  events,
+  selectedDate,
+  setSelectedDate,
+}: Props) {
   return (
     <div className="space-y-6">
       <div className="bg-white border border-slate-200 rounded-xl p-4">
-        <MiniCalendar />
+        <MiniCalendar
+          selectedDate={selectedDate}
+          onDateChange={setSelectedDate}
+          events={events}
+        />
       </div>
 
       <div className="bg-white border border-slate-200 rounded-xl p-4">
-        <p className="text-sm font-medium text-slate-700 mb-3">
-          Vista
-        </p>
+        <p className="text-sm font-medium text-slate-700 mb-3">Vista</p>
 
         <div className="space-y-2">
-          <button className="w-full bg-emerald-400 text-white py-2 rounded-md font-medium">
+          <Button
+            intent="primary"
+            size="md"
+            fullWidth
+            className="font-bold"
+            onClick={() => setSelectedDate(new Date())}
+          >
             Hoy
-          </button>
+          </Button>
 
-          <button className="w-full bg-violet-200 text-violet-900 py-2 rounded-md font-medium">
+          <Button
+            intent="warning"
+            size="md"
+            fullWidth
+            className="font-bold"
+            onClick={() => console.log("Semana seleccionada")}
+          >
             Semana
-          </button>
+          </Button>
         </div>
       </div>
     </div>

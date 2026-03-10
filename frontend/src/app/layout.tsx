@@ -1,4 +1,5 @@
 import "@/styles/globals.css";
+import { Toaster } from "react-hot-toast";
 
 export const metadata = {
   title: "Meet Up",
@@ -10,6 +11,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="es">
       <body className="min-h-screen bg-white text-slate-900 antialiased">
         {children}
+        <Toaster position="bottom-center" />
       </body>
     </html>
   );

@@ -35,7 +35,7 @@ export function CalendarHeader() {
       rightContent={
         <div className="flex gap-3">
           <Button
-            className="bg-emerald-500 hover:bg-emerald-600 text-white"
+            className="bg-emerald-400 hover:bg-emerald-600"
             leftIcon={Plus}
             onClick={handleNewMeeting}
           >
