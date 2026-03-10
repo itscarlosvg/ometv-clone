@@ -13,19 +13,18 @@ export function CreateEventForm() {
 
   return (
     <div className="w-full max-w-xl bg-white border border-slate-200 rounded-xl p-6 shadow-sm space-y-6">
-      {/* Título */}
+
       <div className="space-y-2">
         <label className="text-sm font-medium text-slate-700">
           Título <span className="text-red-500">*</span>
         </label>
         <Input
-          placeholder="Placeholder"
+          placeholder="Reunion de proyecto..."
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
       </div>
 
-      {/* Fechas */}
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
           <label className="text-sm font-medium text-slate-700">
@@ -50,20 +49,18 @@ export function CreateEventForm() {
         </div>
       </div>
 
-      {/* Invitado */}
       <div className="space-y-2">
         <label className="text-sm font-medium text-slate-700">
-          Invitado (email) <span className="text-red-500">*</span>
+          Invitado <span className="text-red-500">*</span>
         </label>
         <Input
           type="email"
-          placeholder="Placeholder"
+          placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
       </div>
 
-      {/* Notas */}
       <div className="space-y-2">
         <label className="text-sm font-medium text-slate-700">
           Notas (opcional)
@@ -71,13 +68,12 @@ export function CreateEventForm() {
         <textarea
           className="w-full rounded-md border border-slate-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400 resize-none"
           rows={4}
-          placeholder="Placeholder"
+          placeholder="..."
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
         />
       </div>
 
-      {/* Auto link info */}
       <div className="rounded-md bg-slate-50 border border-slate-200 p-4">
         <p className="text-sm font-medium text-slate-700">
           Crear enlace de videollamada
@@ -87,7 +83,6 @@ export function CreateEventForm() {
         </p>
       </div>
 
-      {/* Actions */}
       <div className="flex gap-3 pt-2">
         <Button intent="primary">Guardar evento</Button>
 
