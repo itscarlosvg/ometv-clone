@@ -11,9 +11,32 @@ export function CreateEventForm() {
   const [email, setEmail] = useState("");
   const [notes, setNotes] = useState("");
 
+  const handleSubmit = async () => {
+    const response = await fetch("http://localhost:8080/api/events", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        title,
+        startTime: start,
+        endTime: end,
+        guestEmail: email,
+        notes,
+      }),
+    });
+
+    if (!response.ok) {
+      console.error("Error creating event");
+      return;
+    }
+
+    const data = await response.json();
+    console.log("Event created:", data);
+  };
+
   return (
     <div className="w-full max-w-xl bg-white border border-slate-200 rounded-xl p-6 shadow-sm space-y-6">
-
       <div className="space-y-2">
         <label className="text-sm font-medium text-slate-700">
           Título <span className="text-red-500">*</span>
@@ -84,7 +107,9 @@ export function CreateEventForm() {
       </div>
 
       <div className="flex gap-3 pt-2">
-        <Button intent="primary">Guardar evento</Button>
+        <Button intent="primary" onClick={handleSubmit}>
+          Guardar evento
+        </Button>
 
         <Button
           intent="warning"
