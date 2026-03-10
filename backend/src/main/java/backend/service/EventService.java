@@ -1,5 +1,6 @@
 package backend.service;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -25,4 +26,8 @@ public class EventService {
 
         return eventRepository.save(event);
     }
+
+    public List<Event> getAllEvents() {
+    return eventRepository.findAll();
+}
 }

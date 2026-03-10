@@ -1,6 +1,9 @@
 package backend.controller;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,5 +26,10 @@ public class EventController {
     @PostMapping
     public Event createEvent(@RequestBody Event event) {
         return eventService.createEvent(event);
+    }
+
+    @GetMapping
+    public List<Event> getEvents() {
+        return eventService.getAllEvents();
     }
 }
