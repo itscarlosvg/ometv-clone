@@ -6,12 +6,16 @@ type Props = {
   events: CalendarEvent[];
   selectedDate: Date;
   setSelectedDate: (date: Date) => void;
+  viewMode: "day" | "week";
+  setViewMode: (mode: "day" | "week") => void;
 };
 
 export function CalendarSidebar({
   events,
   selectedDate,
   setSelectedDate,
+  viewMode,
+  setViewMode,
 }: Props) {
   return (
     <div className="space-y-6">
@@ -28,21 +32,21 @@ export function CalendarSidebar({
 
         <div className="space-y-2">
           <Button
-            intent="primary"
+            intent={viewMode === "day" ? "primary" : "neutral"}
             size="md"
             fullWidth
             className="font-bold"
-            onClick={() => setSelectedDate(new Date())}
+            onClick={() => setViewMode("day")}
           >
             Hoy
           </Button>
 
           <Button
-            intent="warning"
+            intent={viewMode === "week" ? "primary" : "neutral"}
             size="md"
             fullWidth
             className="font-bold"
-            onClick={() => console.log("Semana seleccionada")}
+            onClick={() => setViewMode("week")}
           >
             Semana
           </Button>

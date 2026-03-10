@@ -1,4 +1,3 @@
-// calendar-header.tsx
 "use client";
 
 import { Plus, CalendarDays } from "lucide-react";

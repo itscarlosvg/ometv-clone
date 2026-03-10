@@ -45,7 +45,7 @@ export function CreateEventForm() {
       if (!response.ok) throw new Error("Error al crear evento");
 
       await response.json();
-      toast.success("Evento creado correctamente ✅");
+      toast.success("Evento creado correctamente");
 
       // Limpiar formulario
       setTitle("");
@@ -55,7 +55,7 @@ export function CreateEventForm() {
       setNotes("");
     } catch (err) {
       console.error(err);
-      toast.error("No se pudo crear el evento ❌");
+      toast.error("No se pudo crear el evento");
     } finally {
       setLoading(false);
     }
@@ -106,7 +106,7 @@ export function CreateEventForm() {
             dateFormat="dd/MM/yyyy HH:mm"
             placeholderText="Selecciona fecha y hora"
             className="w-full rounded-md border border-slate-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400"
-            minDate={start || undefined} // No permite días antes de start
+            minDate={start || undefined} 
             minTime={
               start && end && start.toDateString() === end.toDateString()
                 ? start

@@ -20,12 +20,18 @@ export function EventCard({ event }: Props) {
     minute: "2-digit",
   });
 
-  const endHour = end.toLocaleTimeString("es-ES", {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+  // Calcular duración en horas y minutos
+  const diffMs = end.getTime() - start.getTime();
+  const totalMinutes = Math.round(diffMs / (1000 * 60));
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
 
-  const duration = (end.getTime() - start.getTime()) / (1000 * 60 * 60);
+  const durationFormatted =
+    hours > 0
+      ? minutes > 0
+        ? `${hours}h ${minutes} min`
+        : `${hours}h`
+      : `${minutes} min`;
 
   return (
     <div className="bg-white border border-slate-200 rounded-xl p-4 flex items-center justify-between">
@@ -33,7 +39,7 @@ export function EventCard({ event }: Props) {
         <div className="bg-emerald-100 border border-emerald-200 text-emerald-700 text-xs font-medium px-3 py-2 rounded-md text-center leading-tight">
           {startHour}
           <br />
-          {duration}h
+          {durationFormatted}
         </div>
 
         <div>
