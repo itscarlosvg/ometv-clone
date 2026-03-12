@@ -7,7 +7,6 @@ import toast from "react-hot-toast";
 
 import { Button } from "@/components/ui/button/button";
 import { Input } from "@/components/ui/input/input";
-import { setHours, setMinutes } from "date-fns";
 
 export function CreateEventForm() {
   const [title, setTitle] = useState("");
@@ -29,14 +28,24 @@ export function CreateEventForm() {
     }
 
     setLoading(true);
+
     try {
+      // Ajustar fechas a hora local antes de enviarlas
+      const adjustToLocalISO = (date: Date) => {
+        const offsetMs = date.getTimezoneOffset() * 60000;
+        return new Date(date.getTime() - offsetMs).toISOString();
+      };
+
+      const startLocal = adjustToLocalISO(start);
+      const endLocal = adjustToLocalISO(end);
+
       const response = await fetch("http://localhost:8080/api/events", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           title,
-          startTime: start.toISOString(),
-          endTime: end.toISOString(),
+          startTime: startLocal,
+          endTime: endLocal,
           guestEmail: email,
           notes,
         }),
@@ -106,13 +115,8 @@ export function CreateEventForm() {
             dateFormat="dd/MM/yyyy HH:mm"
             placeholderText="Selecciona fecha y hora"
             className="w-full rounded-md border border-slate-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400"
-            minDate={start || undefined} 
-            minTime={
-              start && end && start.toDateString() === end.toDateString()
-                ? start
-                : setHours(setMinutes(new Date(), 0), 0)
-            }
-            maxTime={setHours(setMinutes(new Date(), 45), 23)}
+            minDate={start || undefined}
+            minTime={start && end && start.toDateString() === end.toDateString() ? start : undefined}
           />
         </div>
       </div>

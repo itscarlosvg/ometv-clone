@@ -14,11 +14,6 @@ export function CalendarHeader() {
     router.push("/dashboard/calendar/new")
   };
 
-  const handleSchedule = () => {
-    console.log("Programar");
-    // Aquí iría la lógica para programar
-  };
-
   return (
     <PageTopbar
       leftContent={

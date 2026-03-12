@@ -1,35 +1,84 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { Calendar, Clock, Copy, Video, Pencil, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button/button";
+import { CalendarEvent } from "@/types/calendar-event";
+import { Input } from "@/components/ui/input";
+
+import "react-datepicker/dist/react-datepicker.css";
+import toast from "react-hot-toast";
 
 type Props = {
   id: string;
 };
 
 export function EventDetailCard({ id }: Props) {
-  const meetingLink = "https://videomeet.app/room/abc-def-ghi";
+  const [event, setEvent] = useState<CalendarEvent | null>(null);
+
+  useEffect(() => {
+    if (!id) return;
+
+    const loadEvent = async () => {
+      try {
+        const res = await fetch(`http://localhost:8080/api/events/${id}`);
+        if (!res.ok) throw new Error("Evento no encontrado");
+        const data = await res.json();
+        setEvent(data);
+      } catch (error) {
+        console.error(error);
+        setEvent(null);
+      }
+    };
+
+    loadEvent();
+  }, [id]);
+
+  if (!event) {
+    return <p className="text-sm text-slate-500">Cargando evento...</p>;
+  }
+
+  const start = new Date(event.startTime);
+  const end = new Date(event.endTime);
+
+  const formattedDate = start.toLocaleDateString("es-ES", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+
+  const startHour = start.toLocaleTimeString("es-ES", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  const endHour = end.toLocaleTimeString("es-ES", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  const meetingLink = event.meetingUrl;
 
   const copyLink = async () => {
     await navigator.clipboard.writeText(meetingLink);
+    toast.success("Copiado al portapapeles");
   };
 
   return (
     <div className="w-full max-w-2xl bg-white border border-slate-200 rounded-xl p-8 shadow-sm space-y-6">
       <div>
-        <h2 className="text-xl font-semibold text-slate-900">
-          Reunión de proyecto Q1
-        </h2>
+        <h2 className="text-xl font-semibold text-slate-900">{event.title}</h2>
 
         <div className="flex items-center gap-6 mt-3 text-sm text-slate-600">
           <div className="flex items-center gap-2">
             <Calendar size={16} />
-            Lunes, 15 Enero 2025
+            {formattedDate}
           </div>
 
           <div className="flex items-center gap-2">
             <Clock size={16} />
-            10:00 - 11:00
+            {startHour} - {endHour}
           </div>
         </div>
       </div>
@@ -41,11 +90,12 @@ export function EventDetailCard({ id }: Props) {
 
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-slate-200" />
+
           <div>
             <p className="text-sm font-medium text-slate-900">
-              Carlos Martínez
+              Invitado
             </p>
-            <p className="text-xs text-slate-500">carlos@email.com</p>
+            <p className="text-xs text-slate-500">{event.guestEmail}</p>
           </div>
         </div>
       </div>
@@ -54,10 +104,11 @@ export function EventDetailCard({ id }: Props) {
         <p className="text-sm font-medium text-slate-800">Enlace de la sala</p>
 
         <div className="flex gap-3">
-          <input
+          <Input
             value={meetingLink}
             readOnly
             className="flex-1 rounded-md border border-slate-300 px-3 py-2 text-sm bg-white"
+            disabled
           />
 
           <Button intent="primary" onClick={copyLink} leftIcon={Copy}>
@@ -66,15 +117,15 @@ export function EventDetailCard({ id }: Props) {
         </div>
       </div>
 
-      <div>
-        <p className="text-sm font-medium text-slate-700 mb-2">Notas</p>
+      {event.notes && (
+        <div>
+          <p className="text-sm font-medium text-slate-700 mb-2">Notas</p>
 
-        <div className="rounded-md border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
-          Revisión del progreso del primer trimestre. Puntos a tratar: objetivos
-          alcanzados, presupuesto utilizado, próximos pasos y ajustes necesarios
-          para Q2.
+          <div className="rounded-md border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
+            {event.notes}
+          </div>
         </div>
-      </div>
+      )}
 
       <hr className="border-slate-200" />
 

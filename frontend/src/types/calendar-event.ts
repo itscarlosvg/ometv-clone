@@ -5,5 +5,5 @@ export type CalendarEvent = {
   endTime: string;
   guestEmail: string;
   notes?: string;
-  meetingUrl?: string;
+  meetingUrl: string;
 };

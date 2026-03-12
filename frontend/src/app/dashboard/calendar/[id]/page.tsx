@@ -4,6 +4,7 @@ import { useRouter, useParams } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { PageTopbar } from "@/components/layout/page-topbar";
 import { EventDetailCard } from "@/components/calendar/event-detail-card";
+import { Button } from "@/components/ui/button/button";
 
 export default function EventDetailPage() {
   const router = useRouter();
@@ -17,12 +18,13 @@ export default function EventDetailPage() {
         showActions={false}
         leftContent={
           <div className="flex items-start gap-3">
-            <button
+            <Button
+              intent="neutral" 
+              className="mt-1 w-8 h-8 p-0 flex items-center justify-center text-slate-500 hover:bg-slate-100"
               onClick={() => router.back()}
-              className="mt-1 w-8 h-8 flex items-center justify-center rounded-md border border-slate-200 text-slate-500 hover:bg-slate-100"
             >
               <ArrowLeft size={16} />
-            </button>
+            </Button>
 
             <div>
               <h1 className="text-lg font-semibold text-slate-900">
