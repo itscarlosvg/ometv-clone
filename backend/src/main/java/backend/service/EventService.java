@@ -28,6 +28,11 @@ public class EventService {
     }
 
     public List<Event> getAllEvents() {
-    return eventRepository.findAll();
-}
+        return eventRepository.findAll();
+    }
+
+    public Event getEventById(String id) {
+        return eventRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Event not found"));
+    }
 }

@@ -28,7 +28,6 @@ public Map<String, Object> me(@AuthenticationPrincipal Jwt jwt) {
     System.out.println("ID: " + id);
     System.out.println("Email: " + email);
 
-    // Versión simplificada - SOLO INSERT
     String sql = """
         INSERT INTO public.users (id, username, created_at, updated_at)
         VALUES (CAST(? AS uuid), ?, NOW(), NOW())
