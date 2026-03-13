@@ -1,12 +1,6 @@
-import { cookies } from "next/headers";
+import { getSession } from "./auth";
 
 export async function isAuthed() {
-  const store = await cookies();
-
-  const token =
-    store.get("token")?.value ||
-    store.get("access_token")?.value ||
-    store.get("session")?.value;
-
-  return Boolean(token);
+  const session = await getSession();
+  return !!session;
 }

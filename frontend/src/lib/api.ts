@@ -1,13 +1,15 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+import { supabase } from "./supabase";
 
-export async function getEventById(id: string) {
-  const res = await fetch(`${API_URL}/events/${id}`, {
-    cache: "no-store",
-  });
+export async function getCurrentUser() {
+  const { data, error } = await supabase.auth.getUser();
 
-  if (!res.ok) {
-    throw new Error("Failed to fetch event");
-  }
+  if (error || !data.user) return null;
 
-  return res.json();
+  const user = data.user;
+
+  return {
+    name: user.user_metadata?.full_name ?? "",
+    email: user.email ?? "",
+    avatarUrl: user.user_metadata?.avatar_url ?? "",
+  };
 }

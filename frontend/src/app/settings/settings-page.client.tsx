@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { PersonalInfoCard } from "../../components/settings/personal-info-card";
 import { DevicesCard } from "../../components/settings/devices-card";
@@ -14,12 +14,8 @@ import {
   Device,
 } from "../../components/settings/types";
 import { Mic, Camera, Volume2, Video, Play } from "lucide-react";
+import { getCurrentUser } from "@/lib/api";
 
-// Datos de ejemplo luego modificar por datos de API
-const MOCK_USER: UserInfo = {
-  name: "Carlos Martínez",
-  email: "carlos.martinez@example.com",
-};
 
 const MOCK_DEVICES: Device[] = [
   {
@@ -50,6 +46,22 @@ const MOCK_DEVICES: Device[] = [
 
 export function SettingsPageClient() {
   const router = useRouter();
+
+  const [user, setUser] = useState<UserInfo | null>(null);
+
+  useEffect(() => {
+    const loadUser = async () => {
+      const u = await getCurrentUser();
+      if (u) setUser(u);
+    };
+
+    loadUser();
+  }, []);
+
+  if (!user) return <div>Cargando...</div>;
+
+
+
   const [settings, setSettings] = useState<UserSettings>({
     cameraOff: true,
     micOff: true,
@@ -98,7 +110,7 @@ export function SettingsPageClient() {
       />
       <div className="max-w-5xl mx-auto py-8 px-4">
         <div className="space-y-8">
-          <PersonalInfoCard user={MOCK_USER} />
+          <PersonalInfoCard user={user} />
           <DevicesCard
             devices={MOCK_DEVICES}
             onDeviceChange={handleDeviceChange}
