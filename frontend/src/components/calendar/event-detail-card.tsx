@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Calendar, Clock, Copy, Video, Pencil, Trash2 } from "lucide-react";
+import { Calendar, Clock, Copy, Video, Pencil, Trash2, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button/button";
 import { CalendarEvent } from "@/types/calendar-event";
 import { Input } from "@/components/ui/input";
+
+import { useRouter } from "next/navigation";
 
 import "react-datepicker/dist/react-datepicker.css";
 import toast from "react-hot-toast";
@@ -15,6 +17,7 @@ type Props = {
 
 export function EventDetailCard({ id }: Props) {
   const [event, setEvent] = useState<CalendarEvent | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     if (!id) return;
@@ -92,9 +95,7 @@ export function EventDetailCard({ id }: Props) {
           <div className="w-10 h-10 rounded-full bg-slate-200" />
 
           <div>
-            <p className="text-sm font-medium text-slate-900">
-              Invitado
-            </p>
+            <p className="text-sm font-medium text-slate-900">Invitado</p>
             <p className="text-xs text-slate-500">{event.guestEmail}</p>
           </div>
         </div>
@@ -130,7 +131,11 @@ export function EventDetailCard({ id }: Props) {
       <hr className="border-slate-200" />
 
       <div className="flex gap-3">
-        <Button intent="primary" leftIcon={Video}>
+        <Button
+          intent="primary"
+          rightIcon={ArrowRight}
+          onClick={() => router.push(`/dashboard/meeting/${event.id}`)}
+        >
           Entrar
         </Button>
 

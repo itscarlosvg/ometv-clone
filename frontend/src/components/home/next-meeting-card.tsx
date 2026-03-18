@@ -4,45 +4,82 @@ import { useEffect, useState } from "react";
 import { Clock, User, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CalendarEvent } from "@/types/calendar-event";
+import { getCurrentUser } from "@/lib/api";
+import { fromUTCToLocal } from "@/lib/date-utils";
+import { useRouter } from "next/navigation";
 
 export function NextMeetingCard() {
   const [nextEvent, setNextEvent] = useState<CalendarEvent | null>(null);
   const [timeLeft, setTimeLeft] = useState<string>("");
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchEvents = async () => {
+      const user = await getCurrentUser();
+      if (!user) return;
+      setUserEmail(user.email);
+
       try {
-        const res = await fetch("http://localhost:8080/api/events");
+        const res = await fetch("http://localhost:8080/api/events/mine", {
+          headers: { "X-User-Email": user.email },
+        });
         const data: CalendarEvent[] = await res.json();
 
-        const today = new Date();
+        // Convertir todas las fechas UTC a locales
+        const eventsWithLocalDates = data.map((event) => ({
+          ...event,
+          startTime: fromUTCToLocal(event.startTime).toISOString(),
+          endTime: fromUTCToLocal(event.endTime).toISOString(),
+        }));
 
-        // Filtrar eventos del día actual que aún no empezaron
-        const eventsToday = data
-          .filter(
-            (e) =>
-              new Date(e.startTime).toDateString() === today.toDateString() &&
-              new Date(e.startTime) > today,
-          )
+        const now = new Date();
+
+        // Filtramos eventos de hoy
+        const eventsToday = eventsWithLocalDates
+          .filter((e) => {
+            const start = new Date(e.startTime);
+            return (
+              start.getFullYear() === now.getFullYear() &&
+              start.getMonth() === now.getMonth() &&
+              start.getDate() === now.getDate()
+            );
+          })
           .sort(
             (a, b) =>
               new Date(a.startTime).getTime() - new Date(b.startTime).getTime(),
           );
 
-        if (eventsToday.length > 0) {
-          const next = eventsToday[0];
+        // Buscar eventos en curso
+        const ongoingEvents = eventsToday.filter((e) => {
+          const start = new Date(e.startTime);
+          const end = new Date(e.endTime);
+          return start <= now && end >= now;
+        });
 
-          setNextEvent(next); // aquí usamos el objeto original (strings)
-
-          // calcular tiempo restante usando Date temporal
-          const diffMs = new Date(next.startTime).getTime() - today.getTime();
-          const hours = Math.floor(diffMs / (1000 * 60 * 60));
-          const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
-
-          setTimeLeft(`${hours > 0 ? hours + "h " : ""}${minutes} min`);
+        if (ongoingEvents.length > 0) {
+          setNextEvent(ongoingEvents[0]);
+          setTimeLeft("En curso");
         } else {
-          setNextEvent(null);
-          setTimeLeft("");
+          const upcomingEvents = eventsToday.filter(
+            (e) => new Date(e.startTime) > now,
+          );
+
+          if (upcomingEvents.length > 0) {
+            const next = upcomingEvents[0];
+            setNextEvent(next);
+
+            const diffMs = new Date(next.startTime).getTime() - now.getTime();
+            const hours = Math.floor(diffMs / (1000 * 60 * 60));
+            const minutes = Math.floor(
+              (diffMs % (1000 * 60 * 60)) / (1000 * 60),
+            );
+
+            setTimeLeft(`${hours > 0 ? hours + "h " : ""}${minutes} min`);
+          } else {
+            setNextEvent(null);
+            setTimeLeft("");
+          }
         }
       } catch (err) {
         console.error(err);
@@ -74,15 +111,32 @@ export function NextMeetingCard() {
     minute: "2-digit",
   });
 
+  const isOngoing = timeLeft === "En curso";
+
   return (
     <div
-      className="relative rounded-xl border border-slate-200 p-6 shadow-sm
-      bg-gradient-to-r from-emerald-100 via-slate-100 to-violet-100"
+      className={`
+      relative rounded-xl border p-6 shadow-sm
+      ${
+        isOngoing
+          ? "border-blue-200 bg-gradient-to-r from-blue-100 via-sky-100 to-cyan-100 animate-soft-pulse"
+          : "border-slate-200 bg-gradient-to-r from-emerald-100 via-slate-100 to-violet-100"
+      }
+    `}
     >
       <div className="flex items-start justify-between">
         <div className="space-y-3">
-          <span className="inline-flex items-center rounded-md bg-emerald-200 px-2 py-1 text-xs font-medium text-emerald-900">
-            En {timeLeft}
+          <span
+            className={`
+            inline-flex items-center rounded-md px-2 py-1 text-xs font-medium
+            ${
+              isOngoing
+                ? "bg-purple-200 text-purple-900"
+                : "bg-emerald-200 text-emerald-900"
+            }
+          `}
+          >
+            {isOngoing ? "En curso" : `En ${timeLeft}`}
           </span>
 
           <h3 className="text-lg font-semibold text-slate-900">
@@ -106,7 +160,11 @@ export function NextMeetingCard() {
           )}
         </div>
 
-        <Button intent="primary" rightIcon={ArrowRight}>
+        <Button
+          intent="primary"
+          rightIcon={ArrowRight}
+          onClick={() => router.push(`/dashboard/meeting/${nextEvent.id}`)}
+        >
           Entrar
         </Button>
       </div>

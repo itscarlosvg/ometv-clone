@@ -8,6 +8,8 @@ import toast from "react-hot-toast";
 import { Button } from "@/components/ui/button/button";
 import { Input } from "@/components/ui/input/input";
 import { setHours, setMinutes } from "date-fns";
+import { getCurrentUser } from "@/lib/api";
+import { toISOLocal } from "@/lib/date-utils";
 
 export function CreateEventForm() {
   const [title, setTitle] = useState("");
@@ -30,15 +32,20 @@ export function CreateEventForm() {
 
     setLoading(true);
     try {
+      const user = await getCurrentUser();
+      if (!user) throw new Error("No se pudo obtener usuario");
+
+      // Guardar las fechas en formato local sin ajuste UTC
       const response = await fetch("http://localhost:8080/api/events", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           title,
-          startTime: start.toISOString(),
-          endTime: end.toISOString(),
+          startTime: start!.toISOString(), // <-- esto ya es UTC
+          endTime: end!.toISOString(), // Usamos la función utilitaria
           guestEmail: email,
           notes,
+          creatorEmail: user.email,
         }),
       });
 
@@ -47,7 +54,6 @@ export function CreateEventForm() {
       await response.json();
       toast.success("Evento creado correctamente");
 
-      // Limpiar formulario
       setTitle("");
       setStart(null);
       setEnd(null);
@@ -106,7 +112,7 @@ export function CreateEventForm() {
             dateFormat="dd/MM/yyyy HH:mm"
             placeholderText="Selecciona fecha y hora"
             className="w-full rounded-md border border-slate-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400"
-            minDate={start || undefined} 
+            minDate={start || undefined}
             minTime={
               start && end && start.toDateString() === end.toDateString()
                 ? start

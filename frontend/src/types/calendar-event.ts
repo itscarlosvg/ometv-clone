@@ -6,4 +6,5 @@ export type CalendarEvent = {
   guestEmail: string;
   notes?: string;
   meetingUrl: string;
+  creatorEmail: string;
 };

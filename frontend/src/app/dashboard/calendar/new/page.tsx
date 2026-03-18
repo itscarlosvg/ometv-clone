@@ -16,7 +16,7 @@ export default function NewMeetingPage() {
         leftContent={
           <div className="flex items-start gap-3">
             <Button
-              intent="neutral" // o "border" según tu implementación de Button
+              intent="neutral"
               className="mt-1 w-8 h-8 p-0 flex items-center justify-center text-slate-500 hover:bg-slate-100"
               onClick={() => router.back()}
             >

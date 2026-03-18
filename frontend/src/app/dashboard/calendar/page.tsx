@@ -1,4 +1,3 @@
-// calendar-page.tsx
 import { CalendarHeader } from "@/components/calendar/calendar-header";
 import { CalendarLayout } from "@/components/calendar/calendar-layout";
 

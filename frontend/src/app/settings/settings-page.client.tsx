@@ -7,7 +7,7 @@ import { DevicesCard } from "../../components/settings/devices-card";
 import { PreferencesCard } from "../../components/settings/preferences-card";
 import { LogoutSection } from "../../components/settings/logout-section";
 import { PageTopbar } from "@/components/layout/page-topbar";
-import { Button } from "@/components/ui/button/button"; 
+import { Button } from "@/components/ui/button/button";
 import {
   UserSettings,
   UserInfo,
@@ -15,7 +15,6 @@ import {
 } from "../../components/settings/types";
 import { Mic, Camera, Volume2, Video, Play } from "lucide-react";
 import { getCurrentUser } from "@/lib/api";
-
 
 const MOCK_DEVICES: Device[] = [
   {
@@ -49,6 +48,12 @@ export function SettingsPageClient() {
 
   const [user, setUser] = useState<UserInfo | null>(null);
 
+  const [settings, setSettings] = useState<UserSettings>({
+    cameraOff: true,
+    micOff: true,
+    notifications: true,
+  });
+
   useEffect(() => {
     const loadUser = async () => {
       const u = await getCurrentUser();
@@ -58,45 +63,37 @@ export function SettingsPageClient() {
     loadUser();
   }, []);
 
-  if (!user) return <div>Cargando...</div>;
-
-
-
-  const [settings, setSettings] = useState<UserSettings>({
-    cameraOff: true,
-    micOff: true,
-    notifications: true,
-  });
-
   const handleSettingChange = <K extends keyof UserSettings>(
     key: K,
     value: UserSettings[K],
   ) => {
     setSettings((prev) => ({ ...prev, [key]: value }));
-    // Aquí iría la llamada a la API
   };
 
   const handleLogout = async () => {
-    // Aquí iría la lógica de logout
     router.push("/login");
   };
 
   const handleDeviceChange = (deviceId: string) => {
-    // Aquí iría la lógica para cambiar dispositivo
     console.log("Cambiar dispositivo:", deviceId);
   };
 
   const handleSave = () => {
-    // Aquí iría la lógica para guardar cambios
     console.log("Guardando configuración:", settings);
   };
+
+  if (!user) {
+    return <div>Cargando...</div>;
+  }
 
   return (
     <>
       <PageTopbar
         leftContent={
           <div>
-            <h1 className="text-lg font-semibold text-slate-900">Ajustes y Perfil</h1>
+            <h1 className="text-lg font-semibold text-slate-900">
+              Ajustes y Perfil
+            </h1>
             <p className="mt-1 text-sm text-slate-500">
               Gestiona tu información y dispositivos
             </p>
@@ -108,17 +105,21 @@ export function SettingsPageClient() {
           </Button>
         }
       />
+
       <div className="max-w-5xl mx-auto py-8 px-4">
         <div className="space-y-8">
           <PersonalInfoCard user={user} />
+
           <DevicesCard
             devices={MOCK_DEVICES}
             onDeviceChange={handleDeviceChange}
           />
+
           <PreferencesCard
             settings={settings}
             onSettingChange={handleSettingChange}
           />
+
           <LogoutSection onLogout={handleLogout} />
         </div>
       </div>

@@ -1,15 +1,22 @@
+// lib/api.ts
 import { supabase } from "./supabase";
 
 export async function getCurrentUser() {
-  const { data, error } = await supabase.auth.getUser();
+  try {
+    const { data: { user }, error } = await supabase.auth.getUser();
+    
+    if (error || !user) {
+      console.log("No authenticated user found");
+      return null;
+    }
 
-  if (error || !data.user) return null;
-
-  const user = data.user;
-
-  return {
-    name: user.user_metadata?.full_name ?? "",
-    email: user.email ?? "",
-    avatarUrl: user.user_metadata?.avatar_url ?? "",
-  };
+    return {
+      name: user.user_metadata?.full_name || user.email?.split('@')[0] || "",
+      email: user.email || "",
+      avatarUrl: user.user_metadata?.avatar_url || "",
+    };
+  } catch (error) {
+    console.error("Error in getCurrentUser:", error);
+    return null;
+  }
 }

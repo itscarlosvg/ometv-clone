@@ -32,3 +32,19 @@ body {
 .scrollbar-hide::-webkit-scrollbar {
   display: none;             /* Chrome, Safari */
 }
+
+@keyframes softPulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.animate-soft-pulse {
+  animation: softPulse 2s ease-in-out infinite;
+}

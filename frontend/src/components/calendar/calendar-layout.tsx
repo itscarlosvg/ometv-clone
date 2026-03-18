@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { CalendarSidebar } from "./calendar-sidebar";
 import { CalendarEvents } from "./calendar-events";
 import { CalendarEvent } from "@/types/calendar-event";
+import { getCurrentUser } from "@/lib/api";
 
 export function CalendarLayout() {
   const [events, setEvents] = useState<CalendarEvent[]>([]);
@@ -12,9 +13,21 @@ export function CalendarLayout() {
 
   useEffect(() => {
     const fetchEvents = async () => {
-      const res = await fetch("http://localhost:8080/api/events");
-      const data = await res.json();
-      setEvents(Array.isArray(data) ? data : (data.events ?? []));
+      const user = await getCurrentUser();
+      if (!user) return;
+
+      try {
+        const res = await fetch("http://localhost:8080/api/events/mine", {
+          headers: {
+            "X-User-Email": user.email,
+          },
+        });
+        const data: CalendarEvent[] = await res.json();
+        setEvents(Array.isArray(data) ? data : []);
+      } catch (err) {
+        console.error("Error fetching events:", err);
+        setEvents([]);
+      }
     };
 
     fetchEvents();

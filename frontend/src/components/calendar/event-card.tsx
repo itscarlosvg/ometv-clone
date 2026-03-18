@@ -46,7 +46,7 @@ export function EventCard({ event }: Props) {
           <p className="text-sm font-medium text-slate-900">{event.title}</p>
 
           <div className="flex items-center gap-1 mt-1 text-xs text-slate-500">
-            <User className="w-3 h-3" /> {/* Icono pequeño */}
+            <User className="w-3 h-3" /> 
             <span>{event.guestEmail}</span>
           </div>
         </div>
