@@ -24,13 +24,15 @@ public class Event {
     private LocalDateTime endTime;
 
     private String guestEmail;
+    private String creatorEmail;
 
     @Column(length = 1000)
     private String notes;
 
     private String meetingUrl;
 
-    public Event() {}
+    public Event() {
+    }
 
     public Event(String title, LocalDateTime startTime, LocalDateTime endTime, String guestEmail, String notes, String meetingUrl) {
         this.title = title;
@@ -41,18 +43,63 @@ public class Event {
         this.meetingUrl = meetingUrl;
     }
 
-    public String getId() { return id; }
-    public String getTitle() { return title; }
-    public LocalDateTime getStartTime() { return startTime; }
-    public LocalDateTime getEndTime() { return endTime; }
-    public String getGuestEmail() { return guestEmail; }
-    public String getNotes() { return notes; }
-    public String getMeetingUrl() { return meetingUrl; }
+    public String getId() {
+        return id;
+    }
 
-    public void setTitle(String title) { this.title = title; }
-    public void setStartTime(LocalDateTime startTime) { this.startTime = startTime; }
-    public void setEndTime(LocalDateTime endTime) { this.endTime = endTime; }
-    public void setGuestEmail(String guestEmail) { this.guestEmail = guestEmail; }
-    public void setNotes(String notes) { this.notes = notes; }
-    public void setMeetingUrl(String meetingUrl) { this.meetingUrl = meetingUrl; }
+    public String getTitle() {
+        return title;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public String getGuestEmail() {
+        return guestEmail;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public String getMeetingUrl() {
+        return meetingUrl;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
+
+    public void setGuestEmail(String guestEmail) {
+        this.guestEmail = guestEmail;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public void setMeetingUrl(String meetingUrl) {
+        this.meetingUrl = meetingUrl;
+    }
+
+    public String getCreatorEmail() {
+        return creatorEmail;
+    }
+
+    public void setCreatorEmail(String creatorEmail) {
+        this.creatorEmail = creatorEmail;
+    }
 }

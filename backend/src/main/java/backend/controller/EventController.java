@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -38,4 +39,10 @@ public class EventController {
     public Event getEventById(@PathVariable String id) {
         return eventService.getEventById(id);
     }
+
+    @GetMapping("/mine")
+    public List<Event> getMyEvents(@RequestHeader("X-User-Email") String userEmail) {
+        return eventService.getEventsForUser(userEmail);
+    }
+
 }

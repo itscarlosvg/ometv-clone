@@ -35,4 +35,8 @@ public class EventService {
         return eventRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Event not found"));
     }
+
+    public List<Event> getEventsForUser(String email) {
+        return eventRepository.findByCreatorEmailOrGuestEmail(email, email);
+    }
 }
